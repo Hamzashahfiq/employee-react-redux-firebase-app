@@ -1,16 +1,12 @@
 import * as React from 'react';
-import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Header from '../header/Header'
-// import BasicTextFields from '../inputItem/BasicTextFields';
-// import { EmployeeInputText } from '../../constant/EmployeeInputText';
-import ButtonBasic from "../button/ButtonBasic"
 import TextField from '@mui/material/TextField';
-import { textAlign } from '@mui/system';
-import { red } from '@mui/material/colors';
+import CircularLoader from '../circularLoader/CircularLoader';
+
+
 
 
 const style = {
@@ -25,7 +21,7 @@ const style = {
 };
 
 
-export default function BasicModal({ resetFormData, updateBtnFlageProp, updateCtaHandlerProps, viewBtnFlageProp, modelopen, modelState, modelclose, submitHandler, formDataValue, setStateFirstName, setStateLastName, setStateEmail, setStatePhoneNo }) {
+export default function BasicModal({ submitLoading,resetFormData, updateBtnFlageProp, updateCtaHandlerProps, viewBtnFlageProp, modelopen, modelState, modelclose, submitHandler, formDataValue, setStateFirstName, setStateLastName, setStateEmail, setStatePhoneNo }) {
   // const [open, setOpen] = React.useState(false);
   // const handleOpen = () => setOpen(true);
   // const handleClose = () => setOpen(false);
@@ -46,14 +42,6 @@ export default function BasicModal({ resetFormData, updateBtnFlageProp, updateCt
           </Box>
           <form action="">
             <Box sx={{ py: 2 }}>
-              {/* {EmployeeInputText.map((item, index) => {
-                  console.log(item.value)
-                  console.log(formDataValue)
-              return (
-                <BasicTextFields key={index} inputType={item.type} inputLabel={item.lable} 
-                placeholder={item.placeholder} inputChange = {setStateData} inputValue= {formDataValue} />
-              )
-            })} */}
               {viewBtnFlageProp ?
                 <Box sx={{ p: 1, textAlign: 'center', width: { xs: 'auto', md: '584px' } }}>
                   <TextField type='text' id="outlined-basic" sx={{ m: 1, width: { xs: 'auto', md: '260px' } }} onChange={setStateFirstName}
@@ -81,7 +69,7 @@ export default function BasicModal({ resetFormData, updateBtnFlageProp, updateCt
               {viewBtnFlageProp ?
                 <Box sx={{ p: 1, textAlign: 'center', width: { xs: 'auto', md: '584px' } }}>
                   {updateBtnFlageProp ? <Button onClick={updateCtaHandlerProps} variant="contained" style={{ textTransform: 'capitalize', backgroundColor: '#002984', margin: '8px', width: '80px' }}>Update</Button> 
-                  :<Button onClick={submitHandler} variant="contained" style={{ textTransform: 'capitalize', backgroundColor: '#002984', margin: '8px', width: '80px' }}>Submit</Button>}
+                  :<Button onClick={submitHandler} variant="contained" style={{ textTransform: 'capitalize', backgroundColor: '#002984', margin: '8px', width: '80px' }}>{submitLoading && <CircularLoader />}Submit</Button>}
                   {updateBtnFlageProp ? null : <Button onClick={resetFormData} variant="contained" style={{ textTransform: 'capitalize', backgroundColor: '#ff6f00', margin: '8px', width: '80px' }}>Clear</Button>}
                 </Box> : null}
             </Box>
