@@ -2,6 +2,7 @@ import { db } from '../../config/Firebase'
 
 export const FatchData = (setTableLoading) => async (dispatch) => {
   setTableLoading(true)
+  console.log('true')
   try {
     let employeeData = await db.collection("employee-data").get();
     let employee = []
@@ -21,6 +22,7 @@ export const FatchData = (setTableLoading) => async (dispatch) => {
   }
   finally {
     setTableLoading(false)
+    console.log('false')
   }
 }
 export const SubmitHandler = (inputData, initialState, setFormData, setOpen, setAlertOpen, alertOpen,setSubmitLoading) => async (dispatch) => {
@@ -40,5 +42,44 @@ export const SubmitHandler = (inputData, initialState, setFormData, setOpen, set
   }
   finally {
     setSubmitLoading(false)
+  }
+}
+export const DeleteHandler = (docId,setDeleteLoading,setAlertDialogOpen,alertDialogOpen,setAlertOpen,alertOpen) => async (dispatch) => {
+  setDeleteLoading(true)
+  try {
+    await db.collection("employee-data").doc(docId).delete();
+    dispatch({
+      type: "DELETEDATA",
+      payload: docId
+    })
+    setAlertDialogOpen({ ...alertDialogOpen, opened: false });
+    setAlertOpen({ ...alertOpen, opened: true,massage: "Clicked record will be deleted", type: "success"  });
+  }
+  catch (error) {
+    alert(error)
+  }
+  finally {
+    setDeleteLoading(false)
+  }
+}
+export const UpdateHandler = (employeeUpdatedData,docId,setupdateLoading,setOpen,setFormData,initialState,setupdateBtnFlage,setAlertOpen,alertOpen) => async (dispatch) => {
+   setupdateLoading(true)
+  try {
+    await db.collection("employee-data").doc(docId).update(employeeUpdatedData);
+    dispatch({
+      type: "UPDATEDATA",
+      payload: {employeeUpdatedData,docId}
+    })
+    setOpen(false)
+    setFormData(initialState)
+    setupdateBtnFlage(false)
+    setAlertOpen({ ...alertOpen, opened: true,massage: "Clicked record will be update", type: "success"  });
+
+  }
+  catch (error) {
+    alert(error)
+  }
+  finally {
+    setupdateLoading(false)
   }
 }

@@ -9,7 +9,7 @@ import CustomizedTables from '../components/table/CustomizedTables'
 import ActionAlerts from '../components/alert/ActionAlerts';
 import AlertDialog from '../components/dialogBox/AlertDialog';
 import { useDispatch } from 'react-redux';
-import {SubmitHandler} from '../store/action/EmployeeAction'
+import {SubmitHandler, DeleteHandler,UpdateHandler} from '../store/action/EmployeeAction'
 
 const initialState = {
     firstName: '',
@@ -21,16 +21,18 @@ const initialState = {
 
 export default function Home() {
     const [formData, setFormData] = useState(initialState);
-    const [EmployeeData, setEmployeeData] = useState([])
     const [open, setOpen] = useState(false);
     const [updateBtnFlage, setupdateBtnFlage] = useState(false)
     const [viewBtnFlage, setViewBtnFlage] = useState(true)
+    const [updateDocid, setUpdateDocid] = useState(0);
     const [updateUuid, setUpdateUuid] = useState(0);
     const [alertOpen, setAlertOpen] = useState({ opened: false, massage: "Employee form will be close", type: "info" });
     const [alertDialogOpen, setAlertDialogOpen] = useState({ opened: false, title: "Deletion Confirmation", text: "Do you want to delete this record?" });
-    const [deleteUuid, setDeleteUuid] = useState("");
+    const [deleteId, setDeleteId] = useState("");
     const [tableLoading, setTableLoading] = useState(false)
     const [submitLoading, setSubmitLoading] = useState(false)
+    const [deleteLoading, setDeleteLoading] = useState(false)
+    const [updateLoading, setupdateLoading] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -103,21 +105,19 @@ export default function Home() {
            
         }
     }
-    const deleteHandler = (uuid) => {
+    const deleteHandler = (row) => {
         setAlertDialogOpen({...alertDialogOpen,opened:true,title: "Deletion Confirmation", text: "Do you want to delete this record?"})
-        setDeleteUuid(uuid)
+        console.log(row.docId)
+        setDeleteId(row.docId)
+
     }
 
     const dialogDeleteHandler= () => {
-        let newEmployeeData = EmployeeData.filter((item) => item.uuid !== deleteUuid)
-        setEmployeeData(newEmployeeData)
-        setAlertDialogOpen({ ...alertDialogOpen, opened: false });
-        setAlertOpen({ ...alertOpen, opened: true,massage: "Clicked record will be deleted", type: "success"  });
+        dispatch(DeleteHandler(deleteId,setDeleteLoading,setAlertDialogOpen,alertDialogOpen,setAlertOpen,alertOpen))
 
     }
     const dialogDisDeleteHandler= () => {
         setAlertDialogOpen({ ...alertDialogOpen, opened: false });
-        // setAlertOpen({ ...alertOpen, opened: true,massage:"", type: "info"  });
 
     }
     const updateHandler = (row) => {
@@ -128,6 +128,7 @@ export default function Home() {
             phoneNo: row.Phone_No
         }
         setUpdateUuid(row.uuid)
+        setUpdateDocid(row.docId)
         setFormData({ ...formData, ...empdata });
         setOpen(true)
         setupdateBtnFlage(true)
@@ -153,29 +154,15 @@ export default function Home() {
             Email: formData.email,
             Phone_No: formData.phoneNo,
         }
-        let newEmployee = EmployeeData.map((item) => {
 
-            if (item.uuid === updateUuid) {
-                return employee
-            }
-            else {
-                return item
-            }
-        })
-        setEmployeeData(newEmployee);
-        setOpen(false)
-        setFormData(initialState)
-        setupdateBtnFlage(false)
-        setAlertOpen({ ...alertOpen, opened: true,massage: "Clicked record will be update", type: "success"  });
-
-
+        dispatch(UpdateHandler(employee,updateDocid,setupdateLoading,setOpen,setFormData,initialState,setupdateBtnFlage,setAlertOpen,alertOpen))
     }
 
     return (
         <Box>
             <Header headerText="Employees List" />
             <Container fixed style={{ padding: '10px 0px', margin: '50px auto' }}>
-                <BasicModal submitLoading = {submitLoading} resetFormData={resetFormDataHandler} setStateFirstName={setStateDataFirsName} setStateLastName={setStateDataLastName}
+                <BasicModal updateLoading= {updateLoading} submitLoading = {submitLoading} resetFormData={resetFormDataHandler} setStateFirstName={setStateDataFirsName} setStateLastName={setStateDataLastName}
                     setStateEmail={setStateDataEmail} setStatePhoneNo={setStateDataPhoneNo} submitHandler={onSubmitHandler}
                     formDataValue={formData} modelState={open} modelopen={handleOpen} modelclose={handleClose}
                     updateBtnFlageProp={updateBtnFlage} viewBtnFlageProp={viewBtnFlage} updateCtaHandlerProps={updateCtaHandler} />
@@ -185,7 +172,7 @@ export default function Home() {
             </Container>
             <ActionAlerts alertOpen={alertOpen} handleClickAlert={handleClickAlert} handleCloseAlert={handleCloseAlert} />
             <AlertDialog alertDialogOpen={alertDialogOpen} dialogDeleteHandler={dialogDeleteHandler} dialogDisDeleteHandler={dialogDisDeleteHandler}
-            handleClickAlertDialog={handleClickAlertDialog} handleCloseAlertDialog={handleCloseAlertDialog}/>
+            handleClickAlertDialog={handleClickAlertDialog} handleCloseAlertDialog={handleCloseAlertDialog} deleteLoading = {deleteLoading}/>
         </Box>
     )
 }

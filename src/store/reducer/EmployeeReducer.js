@@ -19,6 +19,27 @@ export default function EmployeeReducer(state = initialState, action) {
                 employeeData: newEmployeeData
             }
         }
+        case "DELETEDATA": {
+            let newEmployeeData = state.employeeData.filter((item) => item.docId !== action.payload)
+            return {
+                ...state,
+                employeeData: newEmployeeData
+            }
+        }
+        case "UPDATEDATA": {
+            let newEmployeeData = state.employeeData.map((item) => {
+               if (item.docId === action.payload.docId) {
+                   return {...action.payload.employeeUpdatedData, ...action.payload.docId }
+               }else{
+                   return item
+               }
+            })
+
+            return {
+                ...state,
+                employeeData: newEmployeeData
+            }
+        }
 
         default:
             return state

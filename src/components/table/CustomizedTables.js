@@ -58,12 +58,12 @@ const BootstrapTooltip = styled(({ className, ...props }) => (
 export default function CustomizedTables({ tableLoading, setTableLoading, deleteHandler, updateHandler, viewHandler }) {
   const employeeData = useSelector((store) => store.EmployeeReducer.employeeData)
 
-
+ console.log(employeeData)
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(FatchData(setTableLoading))
-  }, [])
+  },[])
 
   const rows = employeeData
 
@@ -103,7 +103,7 @@ export default function CustomizedTables({ tableLoading, setTableLoading, delete
                     </IconButton>
                   </BootstrapTooltip>
                   <BootstrapTooltip title="Delete">
-                    <IconButton onClick={() => deleteHandler(row.uuid)} color="secondary" aria-label="Delete">
+                    <IconButton onClick={() => deleteHandler(row)} color="secondary" aria-label="Delete">
                       <DeleteForeverIcon style={{ color: "red" }} />
                     </IconButton>
                   </BootstrapTooltip>
