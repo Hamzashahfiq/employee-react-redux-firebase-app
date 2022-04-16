@@ -2,7 +2,6 @@ import { db } from '../../config/Firebase'
 
 export const FatchData = (setTableLoading) => async (dispatch) => {
   setTableLoading(true)
-  console.log('true')
   try {
     let employeeData = await db.collection("employee-data").get();
     let employee = []
@@ -22,10 +21,9 @@ export const FatchData = (setTableLoading) => async (dispatch) => {
   }
   finally {
     setTableLoading(false)
-    console.log('false')
   }
 }
-export const SubmitHandler = (inputData, initialState, setFormData, setOpen, setAlertOpen, alertOpen,setSubmitLoading) => async (dispatch) => {
+export const SubmitHandler = (inputData, setSubmittedUuid,initialState, setFormData, setOpen, setAlertOpen, alertOpen,setSubmitLoading) => async (dispatch) => {
   setSubmitLoading(true)
   try {
     await db.collection("employee-data").add(inputData);
@@ -33,6 +31,7 @@ export const SubmitHandler = (inputData, initialState, setFormData, setOpen, set
       type: "INPUTDATA",
       payload: inputData
     })
+    setSubmittedUuid(inputData.uuid)
     setFormData(initialState)
     setOpen(false)
     setAlertOpen({ ...alertOpen, opened: true, massage: "Employee data will be submitted", type: "success" });
@@ -68,7 +67,7 @@ export const UpdateHandler = (employeeUpdatedData,docId,setupdateLoading,setOpen
     await db.collection("employee-data").doc(docId).update(employeeUpdatedData);
     dispatch({
       type: "UPDATEDATA",
-      payload: {employeeUpdatedData,docId}
+      payload: {...employeeUpdatedData,docId}
     })
     setOpen(false)
     setFormData(initialState)

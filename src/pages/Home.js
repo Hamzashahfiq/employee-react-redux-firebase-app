@@ -33,6 +33,7 @@ export default function Home() {
     const [submitLoading, setSubmitLoading] = useState(false)
     const [deleteLoading, setDeleteLoading] = useState(false)
     const [updateLoading, setupdateLoading] = useState(false)
+    const [submitedUuid, setSubmittedUuid] = useState("")
 
     const dispatch = useDispatch()
 
@@ -100,14 +101,12 @@ export default function Home() {
                 Email: formData.email,
                 Phone_No: formData.phoneNo,
             }
-            // setEmployeeData([...EmployeeData, employee])
-            dispatch(SubmitHandler(employee,initialState,setFormData,setOpen,setAlertOpen,alertOpen,setSubmitLoading))
+            dispatch(SubmitHandler(employee,setSubmittedUuid,initialState,setFormData,setOpen,setAlertOpen,alertOpen,setSubmitLoading))
            
         }
     }
     const deleteHandler = (row) => {
         setAlertDialogOpen({...alertDialogOpen,opened:true,title: "Deletion Confirmation", text: "Do you want to delete this record?"})
-        console.log(row.docId)
         setDeleteId(row.docId)
 
     }
@@ -167,11 +166,11 @@ export default function Home() {
                     formDataValue={formData} modelState={open} modelopen={handleOpen} modelclose={handleClose}
                     updateBtnFlageProp={updateBtnFlage} viewBtnFlageProp={viewBtnFlage} updateCtaHandlerProps={updateCtaHandler} />
                 <Box sx={{ my: 3 }}>
-                    <CustomizedTables tableLoading = {tableLoading} setTableLoading= {setTableLoading} deleteHandler={deleteHandler} updateHandler={updateHandler} viewHandler={viewHandler} />
+                    <CustomizedTables tableLoading = {tableLoading} setTableLoading= {setTableLoading} submitedUuid= {submitedUuid} deleteHandler={deleteHandler} updateHandler={updateHandler} viewHandler={viewHandler} />
                 </Box>
             </Container>
             <ActionAlerts alertOpen={alertOpen} handleClickAlert={handleClickAlert} handleCloseAlert={handleCloseAlert} />
-            <AlertDialog alertDialogOpen={alertDialogOpen} dialogDeleteHandler={dialogDeleteHandler} dialogDisDeleteHandler={dialogDisDeleteHandler}
+            <AlertDialog alertDialogOpen={alertDialogOpen}  dialogDeleteHandler={dialogDeleteHandler} dialogDisDeleteHandler={dialogDisDeleteHandler}
             handleClickAlertDialog={handleClickAlertDialog} handleCloseAlertDialog={handleCloseAlertDialog} deleteLoading = {deleteLoading}/>
         </Box>
     )

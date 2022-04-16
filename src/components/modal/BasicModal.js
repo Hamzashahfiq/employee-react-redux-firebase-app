@@ -21,7 +21,7 @@ const style = {
 };
 
 
-export default function BasicModal({updateLoading, submitLoading,resetFormData, updateBtnFlageProp, updateCtaHandlerProps, viewBtnFlageProp, modelopen, modelState, modelclose, submitHandler, formDataValue, setStateFirstName, setStateLastName, setStateEmail, setStatePhoneNo }) {
+export default function BasicModal({updateLoading,submitLoading,resetFormData, updateBtnFlageProp, updateCtaHandlerProps, viewBtnFlageProp, modelopen, modelState, modelclose, submitHandler, formDataValue, setStateFirstName, setStateLastName, setStateEmail, setStatePhoneNo }) {
   // const [open, setOpen] = React.useState(false);
   // const handleOpen = () => setOpen(true);
   // const handleClose = () => setOpen(false);
@@ -68,8 +68,8 @@ export default function BasicModal({updateLoading, submitLoading,resetFormData, 
 
               {viewBtnFlageProp ?
                 <Box sx={{ p: 1, textAlign: 'center', width: { xs: 'auto', md: '584px' } }}>
-                  {updateBtnFlageProp ? updateLoading?<Button variant="contained" style={{ textTransform: 'capitalize', backgroundColor: '#002984', margin: '8px', width: '80px' }}><CircularLoader /> </Button> : <Button onClick={updateCtaHandlerProps} variant="contained" style={{ textTransform: 'capitalize', backgroundColor: '#002984', margin: '8px', width: '80px' }}>Update</Button> 
-                  :submitLoading ?<Button variant="contained" style={{ textTransform: 'capitalize', backgroundColor: '#002984', margin: '8px', width: '80px' }}><CircularLoader /> </Button>:<Button onClick={submitHandler} variant="contained" style={{ textTransform: 'capitalize', backgroundColor: '#002984', margin: '8px', width: '80px' }}>Submit</Button>}
+                  {updateBtnFlageProp ? updateLoading?<Button disabled variant="contained" style={{ textTransform: 'capitalize', backgroundColor: '#002984', margin: '8px', width: '80px' }}><CircularLoader /> </Button> : <Button onClick={updateCtaHandlerProps} variant="contained" style={{ textTransform: 'capitalize', backgroundColor: '#002984', margin: '8px', width: '80px' }}>Update</Button> 
+                  :submitLoading ?<Button disabled variant="contained" style={{ textTransform: 'capitalize', backgroundColor: '#002984', margin: '8px', width: '80px' }}><CircularLoader /> </Button>:<Button onClick={submitHandler} variant="contained" style={{ textTransform: 'capitalize', backgroundColor: '#002984', margin: '8px', width: '80px' }}>Submit</Button>}
                   {updateBtnFlageProp ? null : <Button onClick={resetFormData} variant="contained" style={{ textTransform: 'capitalize', backgroundColor: '#ff6f00', margin: '8px', width: '80px' }}>Clear</Button>}
                 </Box> : null}
             </Box>

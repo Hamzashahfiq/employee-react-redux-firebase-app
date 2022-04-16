@@ -55,15 +55,14 @@ const BootstrapTooltip = styled(({ className, ...props }) => (
 
 
 
-export default function CustomizedTables({ tableLoading, setTableLoading, deleteHandler, updateHandler, viewHandler }) {
+export default function CustomizedTables({ tableLoading, setTableLoading, submitedUuid,deleteHandler, updateHandler, viewHandler }) {
   const employeeData = useSelector((store) => store.EmployeeReducer.employeeData)
-
- console.log(employeeData)
+  
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(FatchData(setTableLoading))
-  },[])
+  },[submitedUuid])
 
   const rows = employeeData
 

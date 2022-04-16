@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import CircularLoader from '../circularLoader/CircularLoader';
 
 
-export default function AlertDialog({ alertDialogOpen, deleteLoading, handleClickAlertDialog, handleCloseAlertDialog, dialogDeleteHandler, dialogDisDeleteHandler }) {
+export default function AlertDialog({ alertDialogOpen,deleteLoading, handleClickAlertDialog, handleCloseAlertDialog, dialogDeleteHandler, dialogDisDeleteHandler }) {
   return (
     <div>
       <Dialog
@@ -26,7 +26,7 @@ export default function AlertDialog({ alertDialogOpen, deleteLoading, handleClic
         </DialogContent>
         <DialogActions>
           <Button onClick={dialogDisDeleteHandler}>Disagree</Button>
-          {deleteLoading ? <Button autoFocus><CircularLoader color="Red" size="18px" /></Button> :
+          {deleteLoading ? <Button disabled autoFocus><CircularLoader color="Red" size="18px" /></Button> :
             <Button onClick={dialogDeleteHandler} autoFocus>Agree</Button>
           }
         </DialogActions>

@@ -29,7 +29,7 @@ export default function EmployeeReducer(state = initialState, action) {
         case "UPDATEDATA": {
             let newEmployeeData = state.employeeData.map((item) => {
                if (item.docId === action.payload.docId) {
-                   return {...action.payload.employeeUpdatedData, ...action.payload.docId }
+                   return action.payload
                }else{
                    return item
                }
